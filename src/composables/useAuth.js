@@ -7,6 +7,7 @@ const username = ref(localStorage.getItem('myblog-username') || '')
 
 export function useAuth() {
   const isLoggedIn = computed(() => !!token.value)
+  const isAdmin = computed(() => username.value === 'admin')
 
   async function login(user, pass) {
     const res = await fetch(`${API_BASE}/api/login`, {
@@ -34,5 +35,5 @@ export function useAuth() {
     return token.value ? { Authorization: `Bearer ${token.value}` } : {}
   }
 
-  return { token, username, isLoggedIn, login, logout, getAuthHeaders }
+  return { token, username, isLoggedIn, isAdmin, login, logout, getAuthHeaders }
 }

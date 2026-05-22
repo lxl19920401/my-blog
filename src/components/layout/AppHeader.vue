@@ -6,7 +6,7 @@ import { useAuth } from '../../composables/useAuth'
 import ThemeToggle from '../common/ThemeToggle.vue'
 
 const route = useRoute()
-const { isLoggedIn, username, logout } = useAuth()
+const { isLoggedIn, isAdmin, username, logout } = useAuth()
 const scrolled = ref(false)
 
 function onScroll() {
@@ -40,7 +40,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
           {{ item.text }}
         </router-link>
 
-        <router-link v-if="isLoggedIn" to="/manage" class="nav-link write-link">
+        <router-link v-if="isLoggedIn && isAdmin" to="/manage" class="nav-link write-link">
           文章管理
         </router-link>
       </nav>

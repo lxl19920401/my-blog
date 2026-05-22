@@ -5,7 +5,7 @@ import { useAuth } from '../composables/useAuth'
 
 const API_BASE = import.meta.env.DEV ? 'http://localhost:3000' : ''
 const router = useRouter()
-const { isLoggedIn, getAuthHeaders } = useAuth()
+const { isLoggedIn, isAdmin, getAuthHeaders } = useAuth()
 
 const posts = ref([])
 const loading = ref(true)
@@ -65,6 +65,10 @@ function formatDate(dateStr) {
 onMounted(() => {
   if (!isLoggedIn.value) {
     router.push('/login')
+    return
+  }
+  if (!isAdmin.value) {
+    router.push('/')
     return
   }
   fetchPosts()

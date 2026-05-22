@@ -102,6 +102,13 @@ function authMiddleware(req, res, next) {
     }
 }
 
+function adminMiddleware(req, res, next) {
+    if (req.user.username !== 'admin') {
+        return res.status(403).json({ success: false, message: '仅管理员可执行此操作' });
+    }
+    next();
+}
+
 // ==================== 根路由 ====================
 
 app.get('/', (req, res) => {
@@ -207,7 +214,7 @@ app.put('/api/change-password', authMiddleware, async (req, res) => {
 // ==================== 当前登录状态 ====================
 
 app.get('/api/me', authMiddleware, (req, res) => {
-    res.json({ success: true, data: { username: req.user.username } });
+    res.json({ success: true, data: { username: req.user.username, role: req.user.username === 'admin' ? 'admin' : 'user' } });
 });
 
 // ==================== 文章管理 API ====================
@@ -255,7 +262,7 @@ app.get('/api/posts/:slug', async (req, res) => {
 });
 
 // 创建文章
-app.post('/api/posts', authMiddleware, async (req, res) => {
+app.post('/api/posts', authMiddleware, adminMiddleware, async (req, res) => {
     const { title, content, description, tags, sticky } = req.body;
     if (!title || !content) {
         return res.status(400).json({ success: false, message: '标题和内容不能为空' });
@@ -282,7 +289,7 @@ app.post('/api/posts', authMiddleware, async (req, res) => {
 });
 
 // 更新文章
-app.put('/api/posts/:slug', authMiddleware, async (req, res) => {
+app.put('/api/posts/:slug', authMiddleware, adminMiddleware, async (req, res) => {
     const { slug } = req.params;
     const { title, content, description, tags, sticky } = req.body;
     try {
@@ -302,7 +309,7 @@ app.put('/api/posts/:slug', authMiddleware, async (req, res) => {
 });
 
 // 删除文章
-app.delete('/api/posts/:slug', authMiddleware, async (req, res) => {
+app.delete('/api/posts/:slug', authMiddleware, adminMiddleware, async (req, res) => {
     const { slug } = req.params;
     try {
         const [result] = await dbPromise.query('DELETE FROM posts WHERE slug = ?', [slug]);
