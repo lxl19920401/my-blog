@@ -18,11 +18,12 @@ const tags = computed(() => {
       v-for="tag in tags"
       :key="tag.name"
       :to="`/tag/${tag.name}`"
-      class="tag-item"
-      :style="{ fontSize: `${Math.max(0.75, Math.min(1.1, 0.7 + tag.count * 0.06))}rem` }"
+      class="tag-pill"
+      :style="{ fontSize: `${Math.max(0.78, Math.min(1.05, 0.72 + tag.count * 0.05))}rem` }"
     >
+      <span class="tag-hash">#</span>
       {{ tag.name }}
-      <span class="tag-count">({{ tag.count }})</span>
+      <span class="tag-count">{{ tag.count }}</span>
     </router-link>
   </div>
 </template>
@@ -31,28 +32,54 @@ const tags = computed(() => {
 .tag-cloud {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 8px;
+  gap: 8px;
+  margin-top: 4px;
 }
 
-.tag-item {
-  display: inline-block;
-  padding: 3px 10px;
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 20px;
+  background: rgba(129, 140, 248, 0.08);
+  border: 1px solid rgba(129, 140, 248, 0.15);
   color: var(--color-accent);
-  background: var(--color-accent-light);
-  border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
   transition: all var(--transition-fast);
   line-height: 1.4;
 }
 
-.tag-item:hover {
+.tag-pill:hover {
   background: var(--color-accent);
   color: #fff;
-  transform: translateY(-1px);
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.tag-hash {
+  opacity: 0.5;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
 }
 
 .tag-count {
-  opacity: 0.7;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: rgba(129, 140, 248, 0.15);
+  font-size: 0.7rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.tag-pill:hover .tag-count {
+  background: rgba(255, 255, 255, 0.2);
 }
 </style>

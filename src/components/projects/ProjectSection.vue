@@ -10,22 +10,16 @@ const { projects } = siteConfig
 </script>
 
 <template>
-  <section class="project-section">
-    <div class="project-row">
-      <ProjectCard v-for="(project, idx) in projects" :key="idx" :project="project" :compact="compact" />
-    </div>
-  </section>
+  <div class="project-toolbelt">
+    <ProjectCard v-for="(project, idx) in projects" :key="idx" :project="project" :compact="compact" />
+  </div>
 </template>
 
 <style scoped>
-.project-section {
-  margin-bottom: 0;
-}
-
-.project-row {
+.project-toolbelt {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px 20px;
+  gap: 8px;
 }
 </style>

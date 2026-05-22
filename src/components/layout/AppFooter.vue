@@ -28,7 +28,7 @@ import { siteConfig } from '../../config/site'
 <style scoped>
 .app-footer {
   border-top: 1px solid transparent;
-  background: transparent;
+  background: var(--color-bg-secondary);
   position: relative;
 }
 
