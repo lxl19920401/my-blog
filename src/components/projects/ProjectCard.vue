@@ -3,12 +3,16 @@ defineProps({
   project: { type: Object, required: true },
   compact: { type: Boolean, default: false },
 })
+
+function projectUrl(project) {
+  return project.devUrl && import.meta.env.DEV ? project.devUrl : project.url
+}
 </script>
 
 <template>
   <a
     v-if="project.url && project.url !== '#'"
-    :href="project.url"
+    :href="projectUrl(project)"
     target="_blank"
     rel="noopener noreferrer"
     class="project-pill"

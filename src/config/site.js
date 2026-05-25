@@ -27,6 +27,15 @@ export const siteConfig = {
 
   projects: [
     {
+      name: 'AI 智能助手',
+      description: '基于智谱 GLM-4.7-Flash 的免费 AI 对话助手',
+      url: 'http://81.70.187.154:3001/chat/',
+      devUrl: 'http://localhost:5174/chat/',
+      icon: '🤖',
+      category: '工具',
+      status: 'done',
+    },
+    {
       name: 'UI 组件库',
       description: '一套轻量级 Vue 3 组件库，包含 30+ 常用组件与工具函数',
       url: '#',
