@@ -24,6 +24,12 @@ const db = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 10000,
+});
+
+db.on('error', (err) => {
+    console.error('❌ MySQL 连接异常:', err.message);
 });
 
 const dbPromise = db.promise();
@@ -82,7 +88,7 @@ const dbPromise = db.promise();
         }
     } catch (err) {
         console.error('❌ 数据库初始化失败:', err.message);
-        process.exit(1);
+        console.log('⚠️  服务器将继续运行，数据库功能暂不可用');
     }
 })();
 
@@ -378,7 +384,7 @@ app.delete('/api/comments/:id', async (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/my-blog', express.static('dist'));
-    app.get('/my-blog/*', (req, res) => {
+    app.get('/my-blog/:path(.*)', (req, res) => {
         res.sendFile('index.html', { root: 'dist' });
     });
 }
