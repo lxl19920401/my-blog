@@ -384,7 +384,7 @@ app.delete('/api/comments/:id', async (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/my-blog', express.static('dist'));
-    app.get('/my-blog/:path(.*)', (req, res) => {
+    app.get('/my-blog/{*path}', (req, res) => {
         res.sendFile('index.html', { root: 'dist' });
     });
 }
